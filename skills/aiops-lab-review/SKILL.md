@@ -1,5 +1,5 @@
 ---
-name: aiops-lab-reviewer
+name: aiops-lab-review
 description: Reviews the user's hands-on lab work for an AIOps Zero to Hero stage like a senior engineer. Use when the user says "review my lab", "check my stage N project", "is my RAG pipeline / gateway / eval setup good enough", or points at code they built for a curriculum lab.
 ---
 
@@ -13,7 +13,9 @@ generous in explanation.
 
 1. **Identify the stage and lab.** Ask which stage/lab this is if unclear, then
    read `stages/<NN-name>/README.md` — the lab description and the
-   "You're ready when" checklist are your review rubric.
+   "You're ready when" checklist are your review rubric. (No local `stages/`
+   directory? Fetch the same path from
+   `https://raw.githubusercontent.com/nomadicmehul/aiopszerotohero/main/`.)
 2. **Read their actual work.** Code, configs, dashboards, READMEs — whatever
    they point you at. Run it if it's runnable and safe to run locally.
 3. **Review against the rubric, not perfection.** The question is "does this
@@ -30,8 +32,9 @@ generous in explanation.
    - 💡 **Level up** — 1–3 optional improvements that would make this
      portfolio-worthy (link to later stages when relevant)
 5. **Verdict:** pass / not yet. If "not yet", list exactly what to change and
-   offer to re-review. If "pass", suggest updating `my-learning-log.md` and
-   naming the next lab or stage.
+   offer to re-review. If "pass", append a row to `LEARNING.md`'s Progress
+   log (`lab review · pass`) when the file exists, and name the next lab or
+   stage via `/aiops-learn`.
 
 ## Style
 

@@ -69,15 +69,43 @@ flowchart TD
 
 **Estimated effort:** ~9–15 months from zero at 8–10 hrs/week; ~4–6 months for experienced DevOps/cloud engineers starting at Stage 3.
 
-## 🖥️ Three ways to learn
+## 🚀 Getting started — three ways to learn
 
-1. **Read it here** — every stage is plain markdown in [stages/](stages/).
-2. **Browse the website locally** — a clean reading experience for the whole curriculum:
-   ```bash
-   python3 -m http.server 4173
-   # then open http://localhost:4173/site/
-   ```
-3. **Learn with your AI agent** 📦 — the curriculum ships as [Agent Skills](skills/): clone the repo, open your agent in it, and it becomes your personal mentor (`aiops-mentor`), lab reviewer (`aiops-lab-reviewer`), and quizmaster (`aiops-quiz`). Works with Claude Code out of the box; any SKILL.md-compatible agent can use the same folder. See [skills/README.md](skills/README.md).
+### 1. In your terminal, with your AI agent (recommended) 📦
+
+The curriculum ships as [Agent Skills](skills/) — works with Claude Code, Cursor, Codex, and any SKILL.md-compatible agent. No clone required:
+
+```bash
+npx skills add nomadicmehul/aiopszerotohero
+```
+
+Then in your agent:
+
+| Command | What it does |
+|---|---|
+| `/aiops-start` | Placement quiz → your personal study plan (`LEARNING.md`) |
+| `/aiops-learn` | One interactive lesson or lab session at a time, progress tracked |
+| `/aiops-quiz` | Spaced-repetition checks — honest grades, review queue |
+| `/aiops-lab-review` | Senior-engineer review of your lab work, pass/not-yet verdicts |
+| `/aiops-guide` | "Where do I learn X?" — instant pointer into the right stage |
+
+See [skills/README.md](skills/README.md) for details.
+
+### 2. Browse the website
+
+**Live:** [nomadicmehul.github.io/aiopszerotohero](https://nomadicmehul.github.io/aiopszerotohero/)
+
+Or run it locally:
+
+```bash
+git clone https://github.com/nomadicmehul/aiopszerotohero.git && cd aiopszerotohero
+python3 -m http.server 4173
+# open http://localhost:4173/docs/
+```
+
+### 3. Read it right here
+
+Every stage is plain markdown in [stages/](stages/) — start at [Stage 0](stages/00-orientation/).
 
 ## 📚 How each stage works
 
