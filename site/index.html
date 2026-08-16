@@ -248,26 +248,39 @@
 
   <section id="skills" style="background: var(--bg-2); border-block: 1px solid var(--border);">
     <div class="wrap">
-      <h2>📦 Learn with <em style="color:var(--teal); font-style:normal">any</em> AI agent</h2>
-      <p class="lead">This curriculum ships as <strong style="color:var(--text)">Agent Skills</strong> — an open format (a folder with a <code style="font-family:var(--mono)">SKILL.md</code>) supported by Claude Code and a growing list of agents. Clone the repo, point your agent at it, and it becomes your personal AIOps mentor: it knows every stage, quizzes you, reviews your labs, and tracks your progress locally.</p>
-      <div class="skills-grid">
+      <h2>⌨️ Learn in your terminal <span style="font-size:15px; vertical-align:middle; background:rgba(45,212,191,.12); color:var(--teal); padding:4px 12px; border-radius:999px; font-weight:600;">recommended</span></h2>
+      <p class="lead">This curriculum ships as <strong style="color:var(--text)">Agent Skills</strong> — an open format supported by Claude Code, Cursor, Codex, and a growing list of agents. One command turns your AI agent into your personal AIOps tutor: placement quiz, interactive lessons, honest grading, lab reviews — with your progress tracked locally in <code style="font-family:var(--mono)">LEARNING.md</code>. No clone required; content streams from GitHub.</p>
+      <div class="code-block"><span class="c"># Install into Claude Code, Cursor, Codex, or any SKILL.md-compatible agent</span>
+npx skills add nomadicmehul/aiopszerotohero
+
+<span class="c"># then, inside your agent:</span>
+/aiops-start   <span class="c"># placement quiz → your personal study plan</span></div>
+      <div class="skills-grid" style="margin-top: 28px;">
         <div class="skill-card">
-          <h3><code>aiops-mentor</code></h3>
-          <p>Your guide through the curriculum. Assesses where you should start, walks you through each stage, explains concepts, and suggests what's next based on your learning log.</p>
+          <h3><code>/aiops-start</code></h3>
+          <p>One-time onboarding: a 3-question interview + 10-question placement quiz maps you to your entry stage and writes your persistent study plan.</p>
         </div>
         <div class="skill-card">
-          <h3><code>aiops-lab-reviewer</code></h3>
-          <p>Reviews your hands-on lab work against the stage's skills checklist — like a senior engineer doing code review on your learning projects.</p>
+          <h3><code>/aiops-learn</code></h3>
+          <p>One focused session per run — problem → concept → hands-on → check. Teaches interactively, asks you to predict before revealing, logs your progress.</p>
         </div>
         <div class="skill-card">
-          <h3><code>aiops-quiz</code></h3>
-          <p>Generates spaced-repetition quizzes from any stage you've completed, so the knowledge sticks before you move on.</p>
+          <h3><code>/aiops-quiz</code></h3>
+          <p>Spaced repetition with honest grades. Weak topics enter your review queue and get re-tested until they stick. Tells you when you're ready to move on.</p>
+        </div>
+        <div class="skill-card">
+          <h3><code>/aiops-lab-review</code></h3>
+          <p>A senior engineer's review of your lab work against the stage checklist — pass / not-yet verdicts and concrete fixes, never vibes.</p>
+        </div>
+        <div class="skill-card">
+          <h3><code>/aiops-guide</code></h3>
+          <p>"Where do I learn vLLM? RAG? Terraform? Guardrails?" — instant pointer to the exact stage and section, plus a 30-second answer.</p>
+        </div>
+        <div class="skill-card">
+          <h3>🔒 Local by design</h3>
+          <p>Your plan, progress, and lab code never leave your machine. One gitignored file (<code>LEARNING.md</code>) holds everything — delete it to start over.</p>
         </div>
       </div>
-      <div class="code-block"><span class="c"># Works with Claude Code today — same folder works with any SKILL.md-compatible agent</span>
-git clone https://github.com/YOUR_USERNAME/aiopszerotohero.git
-cd aiopszerotohero
-claude  <span class="c"># then: "start me on the aiops curriculum"</span></div>
     </div>
   </section>
 

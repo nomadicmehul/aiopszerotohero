@@ -1,58 +1,61 @@
-# 📦 Agent Skills — learn with the AI agent of your choice
+# 📦 Learn in your terminal — with the AI agent of your choice
 
-This curriculum doesn't just sit in markdown files — it ships as **Agent
-Skills**, so your AI coding agent becomes your mentor, lab reviewer, and
-quizmaster. Everything runs **locally against this repo**: your progress, your
-lab code, and your learning log stay on your machine.
+This curriculum ships as **Agent Skills** (the open `SKILL.md` format), so
+your AI coding agent becomes your tutor, quizmaster, and lab reviewer.
+Everything runs **locally**: your plan, progress, and lab code stay on your
+machine, and the skills work with Claude Code, Cursor, Codex, and any other
+SKILL.md-compatible agent.
 
-Skills use the open [Agent Skills format](https://code.claude.com/docs/en/skills)
-(a folder with a `SKILL.md`), supported by Claude Code and a growing list of
-agents. Any agent that can read files can use them — worst case, paste the
-`SKILL.md` as a system prompt.
-
-## The skills
-
-| Skill | What it does |
-|---|---|
-| [`aiops-mentor`](aiops-mentor/SKILL.md) | Places you on the roadmap, teaches each stage, tracks your progress in `my-learning-log.md` |
-| [`aiops-lab-reviewer`](aiops-lab-reviewer/SKILL.md) | Reviews your hands-on lab work against the stage's checklist, like a senior engineer |
-| [`aiops-quiz`](aiops-quiz/SKILL.md) | Spaced-repetition quizzes on stages you've studied — scenario questions, honest grading |
-
-## Use with Claude Code
-
-The repo's `.claude/skills/` already points at this folder, so it just works:
+## Install (no clone needed)
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/aiopszerotohero.git
-cd aiopszerotohero
-claude
+npx skills add nomadicmehul/aiopszerotohero
 ```
 
-Then say things like:
+Then open your agent anywhere and run:
 
-- *"Start me on the AIOps curriculum"* → mentor places you and builds your plan
-- *"Teach me stage 3"* / *"What's next?"*
-- *"Review my lab"* (with your lab code in or linked from the repo)
-- *"Quiz me on stage 2"* / *"Am I ready for stage 4?"*
+```
+/aiops-start
+```
 
-> **Windows note:** `.claude/skills` is a symlink. If your clone doesn't
-> support symlinks, copy the folders instead: `cp -r skills/* .claude/skills/`.
+The skills fetch stage content straight from GitHub when the repo isn't
+cloned. Prefer having everything local (labs live better in a repo)?
 
-## Use with other agents
+```bash
+git clone https://github.com/nomadicmehul/aiopszerotohero.git
+cd aiopszerotohero
+claude   # skills auto-load from .claude/skills
+```
 
-- **Any SKILL.md-compatible agent** (Cursor, Codex CLI, opencode, …): point it
-  at this repo's `skills/` directory per your agent's skills documentation.
-- **Any agent at all:** open the skill's `SKILL.md` and paste it as your
-  system prompt / custom instructions, then work inside the cloned repo.
+## The commands
+
+| Command | What it does |
+|---|---|
+| [`/aiops-start`](aiops-start/SKILL.md) | One-time onboarding: 3-question interview + 10-question placement quiz → writes `LEARNING.md`, your persistent study plan |
+| [`/aiops-learn`](aiops-learn/SKILL.md) | One focused session per run: teaches the next topic interactively (problem → concept → hands-on → check), or advances your current lab. Records progress |
+| [`/aiops-quiz`](aiops-quiz/SKILL.md) | Honest checks + spaced repetition: drains your review queue, tells you when you're ready to move on (and when you're not) |
+| [`/aiops-lab-review`](aiops-lab-review/SKILL.md) | Senior-engineer review of your lab work against the stage's checklist — pass / not-yet verdicts, concrete fixes |
+| [`/aiops-guide`](aiops-guide/SKILL.md) | "Where do I learn vLLM / RAG / Terraform / guardrails?" — instant pointer into the right stage |
+
+## How progress works
+
+Everything lives in one file the skills maintain for you — `LEARNING.md`:
+
+- **Mission** — your goal, in your words
+- **Placement** — where you entered and why
+- **Path** — all 11 stages with status: `Skip / Review / Do / Done`
+- **Progress log** — every session, quiz, and lab review
+- **Review queue** — weak topics, re-tested until they stick
+
+It's gitignored. Delete it (or ask `/aiops-start` to start over — it
+archives the old one) any time.
 
 ## Your data stays yours
 
-The skills write exactly one file: `my-learning-log.md` in the repo root
-(gitignored). Delete it to start over. Nothing is sent anywhere except your
-own conversations with your own agent.
+The skills write exactly one file (`LEARNING.md`). Nothing is sent anywhere
+except your own conversations with your own agent.
 
 ## Contributing skills
 
-Ideas welcome — an interview-prep drill skill, a capstone project planner, a
-resource-freshness checker. Same rules as the rest of the repo: open a PR, see
-[CONTRIBUTING.md](../CONTRIBUTING.md).
+Ideas welcome — an interview-prep drill, a capstone planner, a
+resource-freshness checker. Open a PR: see [CONTRIBUTING.md](../CONTRIBUTING.md).
