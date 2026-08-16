@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AIOps Zero to Hero — The open curriculum for AI-native operations</title>
+<meta name="description" content="From your first kubectl get pods to running the AI platform of an entire engineering org. Free, open, community-built.">
+<style>
+  :root {
+    --bg: #0b1416;
+    --bg-2: #101c1f;
+    --panel: #132226;
+    --panel-2: #182b30;
+    --border: #24393f;
+    --text: #e8f1f0;
+    --muted: #93aab0;
+    --teal: #2dd4bf;
+    --teal-dim: #14b8a6;
+    --orange: #fb923c;
+    --green: #4ade80;
+    --yellow: #facc15;
+    --red: #f87171;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--teal); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- Nav ---------- */
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(11,20,22,.85); backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  nav .wrap { display: flex; align-items: center; gap: 24px; height: 58px; }
+  .brand { font-weight: 800; font-size: 17px; color: var(--text); letter-spacing: -.02em; white-space: nowrap; }
+  .brand em { color: var(--teal); font-style: normal; }
+  .brand:hover { text-decoration: none; }
+  nav .links { display: flex; gap: 18px; margin-left: auto; font-size: 14px; }
+  nav .links a { color: var(--muted); }
+  nav .links a:hover { color: var(--text); text-decoration: none; }
+
+  /* ---------- Hero ---------- */
+  header.hero {
+    padding: 88px 0 64px;
+    background:
+      radial-gradient(ellipse 60% 50% at 70% 0%, rgba(45,212,191,.10), transparent),
+      radial-gradient(ellipse 50% 40% at 20% 10%, rgba(251,146,60,.07), transparent);
+    text-align: center;
+  }
+  .hero .badge-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 28px; }
+  .pill {
+    font-size: 12.5px; padding: 4px 12px; border-radius: 999px;
+    border: 1px solid var(--border); color: var(--muted); background: var(--panel);
+  }
+  .pill b { color: var(--teal); font-weight: 600; }
+  .hero h1 {
+    font-size: clamp(38px, 6vw, 62px); font-weight: 850; letter-spacing: -.03em; line-height: 1.05;
+  }
+  .hero h1 .zero { color: var(--muted); }
+  .hero h1 .hero-word { color: var(--teal); }
+  .hero p.tag {
+    margin: 20px auto 0; max-width: 640px; font-size: 18px; color: var(--muted);
+  }
+  .hero p.tag strong { color: var(--text); font-weight: 600; }
+  .cta-row { margin-top: 36px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    display: inline-block; padding: 12px 26px; border-radius: 10px; font-weight: 650; font-size: 15px;
+    transition: transform .12s ease, box-shadow .12s ease;
+  }
+  .btn:hover { text-decoration: none; transform: translateY(-1px); }
+  .btn-primary { background: var(--teal-dim); color: #04211d; box-shadow: 0 4px 24px rgba(20,184,166,.25); }
+  .btn-primary:hover { box-shadow: 0 6px 28px rgba(20,184,166,.4); }
+  .btn-ghost { border: 1px solid var(--border); color: var(--text); background: var(--panel); }
+
+  /* ---------- Sections ---------- */
+  section { padding: 64px 0; }
+  section h2 { font-size: 30px; font-weight: 800; letter-spacing: -.02em; margin-bottom: 8px; }
+  section > .wrap > p.lead { color: var(--muted); max-width: 700px; margin-bottom: 36px; }
+
+  /* ---------- Audience table ---------- */
+  .audience { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+  .aud-card {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px;
+    font-size: 14.5px;
+  }
+  .aud-card .who { color: var(--text); font-weight: 600; }
+  .aud-card .start { color: var(--muted); margin-top: 6px; }
+  .aud-card .start a { font-weight: 600; }
+
+  /* ---------- Roadmap ---------- */
+  .track { position: relative; margin-top: 12px; }
+  .track::before {
+    content: ""; position: absolute; left: 27px; top: 20px; bottom: 20px;
+    width: 2px; background: linear-gradient(var(--green), var(--yellow), var(--red));
+    opacity: .55;
+  }
+  .stage-card {
+    position: relative; display: flex; gap: 18px; align-items: flex-start;
+    background: var(--panel); border: 1px solid var(--border); border-radius: 14px;
+    padding: 18px 22px; margin-bottom: 12px; margin-left: 0;
+    cursor: pointer; transition: border-color .15s, background .15s;
+  }
+  .stage-card:hover { border-color: var(--teal-dim); background: var(--panel-2); }
+  .stage-num {
+    flex: 0 0 56px; height: 56px; border-radius: 50%; display: grid; place-items: center;
+    font-family: var(--mono); font-weight: 700; font-size: 17px;
+    background: var(--bg-2); border: 2px solid var(--border); z-index: 1;
+  }
+  .lv-g .stage-num { border-color: var(--green); color: var(--green); }
+  .lv-y .stage-num { border-color: var(--yellow); color: var(--yellow); }
+  .lv-r .stage-num { border-color: var(--red); color: var(--red); }
+  .stage-body { flex: 1; min-width: 0; }
+  .stage-body h3 { font-size: 17.5px; font-weight: 700; letter-spacing: -.01em; }
+  .stage-body p { color: var(--muted); font-size: 14px; margin-top: 3px; }
+  .stage-meta { flex: 0 0 auto; align-self: center; text-align: right; }
+  .level-tag { font-size: 12px; padding: 3px 10px; border-radius: 999px; font-weight: 600; white-space: nowrap; }
+  .lv-g .level-tag { background: rgba(74,222,128,.12); color: var(--green); }
+  .lv-y .level-tag { background: rgba(250,204,21,.12); color: var(--yellow); }
+  .lv-r .level-tag { background: rgba(248,113,113,.12); color: var(--red); }
+  .stage-meta .open-hint { display: block; font-size: 12px; color: var(--muted); margin-top: 6px; }
+
+  /* ---------- Skills section ---------- */
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
+  .skill-card {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 22px;
+  }
+  .skill-card h3 { font-size: 16px; margin-bottom: 8px; }
+  .skill-card h3 code { font-family: var(--mono); color: var(--orange); font-size: 15px; }
+  .skill-card p { color: var(--muted); font-size: 14px; }
+  .code-block {
+    margin-top: 28px; background: #0a1113; border: 1px solid var(--border); border-radius: 12px;
+    padding: 18px 22px; font-family: var(--mono); font-size: 13.5px; overflow-x: auto;
+    color: #c9e5df; line-height: 1.8; white-space: pre;
+  }
+  .code-block .c { color: #5d7a80; }
+
+  /* ---------- Stage reader (article view) ---------- */
+  #reader { display: none; padding: 40px 0 80px; }
+  #reader.active { display: block; }
+  #home.hidden { display: none; }
+  .reader-top { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; flex-wrap: wrap; }
+  .back-btn {
+    border: 1px solid var(--border); background: var(--panel); color: var(--text);
+    padding: 8px 16px; border-radius: 8px; font-size: 14px; cursor: pointer; font-family: var(--sans);
+  }
+  .back-btn:hover { border-color: var(--teal-dim); }
+  .reader-nav { margin-left: auto; display: flex; gap: 8px; }
+  article.md {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 16px;
+    padding: 40px clamp(22px, 5vw, 56px); max-width: 860px; margin: 0 auto;
+  }
+  article.md h1 { font-size: 30px; letter-spacing: -.02em; margin-bottom: 18px; line-height: 1.2; }
+  article.md h2 { font-size: 21px; margin: 34px 0 12px; padding-top: 18px; border-top: 1px solid var(--border); }
+  article.md h3 { font-size: 16.5px; margin: 22px 0 8px; color: var(--teal); }
+  article.md p { margin: 10px 0; }
+  article.md ul, article.md ol { margin: 10px 0 10px 26px; }
+  article.md li { margin: 6px 0; }
+  article.md blockquote {
+    border-left: 3px solid var(--orange); background: rgba(251,146,60,.06);
+    padding: 10px 18px; margin: 14px 0; border-radius: 0 8px 8px 0; color: #d9c7b8;
+    font-size: 14.5px;
+  }
+  article.md blockquote p { margin: 4px 0; }
+  article.md code { font-family: var(--mono); font-size: .9em; background: #0a1113; border: 1px solid var(--border); padding: 1px 6px; border-radius: 5px; color: #8be9d8; }
+  article.md pre { background: #0a1113; border: 1px solid var(--border); border-radius: 10px; padding: 16px; overflow-x: auto; margin: 14px 0; }
+  article.md pre code { border: 0; padding: 0; background: transparent; }
+  article.md table { border-collapse: collapse; width: 100%; margin: 16px 0; font-size: 14px; display: block; overflow-x: auto; }
+  article.md th, article.md td { border: 1px solid var(--border); padding: 8px 12px; text-align: left; }
+  article.md th { background: var(--bg-2); }
+  article.md input[type=checkbox] { accent-color: var(--teal); margin-right: 6px; }
+  article.md hr { border: 0; border-top: 1px solid var(--border); margin: 24px 0; }
+  .loading { text-align: center; color: var(--muted); padding: 60px; }
+
+  /* ---------- Footer ---------- */
+  footer { border-top: 1px solid var(--border); padding: 40px 0 60px; color: var(--muted); font-size: 14px; text-align: center; }
+  footer .heart { color: var(--orange); }
+
+  @media (max-width: 640px) {
+    .stage-meta { display: none; }
+    .track::before { left: 23px; }
+    .stage-num { flex-basis: 48px; height: 48px; font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#/" onclick="goHome()">🛰️ AIOps <em>Zero→Hero</em></a>
+    <div class="links">
+      <a href="#roadmap">Roadmap</a>
+      <a href="#skills">Agent Skills</a>
+      <a href="#contribute">Contribute</a>
+    </div>
+  </div>
+</nav>
+
+<div id="home">
+  <header class="hero">
+    <div class="wrap">
+      <div class="badge-row">
+        <span class="pill"><b>11</b> stages</span>
+        <span class="pill"><b>Free-first</b> resources</span>
+        <span class="pill"><b>MIT</b> licensed</span>
+        <span class="pill">Built from <b>real job postings</b></span>
+      </div>
+      <h1>AIOps<br><span class="zero">Zero</span> to <span class="hero-word">Hero</span></h1>
+      <p class="tag">The open curriculum for AI in DevOps, SRE, Cloud &amp; Platform Engineering. From your first <code style="font-family:var(--mono);color:var(--teal)">kubectl get pods</code> to <strong>running the AI platform of an entire engineering org.</strong></p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#roadmap">Start the roadmap →</a>
+        <a class="btn btn-ghost" href="#skills">Learn with your AI agent</a>
+      </div>
+    </div>
+  </header>
+
+  <section id="who">
+    <div class="wrap">
+      <h2>Where do I start?</h2>
+      <p class="lead">Pick your entry point based on where you are today — the curriculum meets you there.</p>
+      <div class="audience">
+        <div class="aud-card"><div class="who">🌱 New to tech entirely</div><div class="start">Start at <a href="#/stage/0">Stage 0 — Orientation</a></div></div>
+        <div class="aud-card"><div class="who">💻 Developer, no ops background</div><div class="start">Start at <a href="#/stage/1">Stage 1 — Foundations</a></div></div>
+        <div class="aud-card"><div class="who">⚙️ DevOps / Cloud / SRE engineer</div><div class="start">Jump to <a href="#/stage/3">Stage 3 — AI Fundamentals</a></div></div>
+        <div class="aud-card"><div class="who">🤖 ML / data engineer</div><div class="start"><a href="#/stage/2">Stage 2</a>, then jump to <a href="#/stage/5">Stage 5 — LLM Platform</a></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="roadmap" style="padding-top: 32px;">
+    <div class="wrap">
+      <h2>The Roadmap</h2>
+      <p class="lead">~9–15 months from zero at 8–10 hrs/week · ~4–6 months for experienced DevOps engineers starting at Stage 3. Click any stage to read it.</p>
+      <div class="track" id="track"></div>
+    </div>
+  </section>
+
+  <section id="skills" style="background: var(--bg-2); border-block: 1px solid var(--border);">
+    <div class="wrap">
+      <h2>📦 Learn with <em style="color:var(--teal); font-style:normal">any</em> AI agent</h2>
+      <p class="lead">This curriculum ships as <strong style="color:var(--text)">Agent Skills</strong> — an open format (a folder with a <code style="font-family:var(--mono)">SKILL.md</code>) supported by Claude Code and a growing list of agents. Clone the repo, point your agent at it, and it becomes your personal AIOps mentor: it knows every stage, quizzes you, reviews your labs, and tracks your progress locally.</p>
+      <div class="skills-grid">
+        <div class="skill-card">
+          <h3><code>aiops-mentor</code></h3>
+          <p>Your guide through the curriculum. Assesses where you should start, walks you through each stage, explains concepts, and suggests what's next based on your learning log.</p>
+        </div>
+        <div class="skill-card">
+          <h3><code>aiops-lab-reviewer</code></h3>
+          <p>Reviews your hands-on lab work against the stage's skills checklist — like a senior engineer doing code review on your learning projects.</p>
+        </div>
+        <div class="skill-card">
+          <h3><code>aiops-quiz</code></h3>
+          <p>Generates spaced-repetition quizzes from any stage you've completed, so the knowledge sticks before you move on.</p>
+        </div>
+      </div>
+      <div class="code-block"><span class="c"># Works with Claude Code today — same folder works with any SKILL.md-compatible agent</span>
+git clone https://github.com/YOUR_USERNAME/aiopszerotohero.git
+cd aiopszerotohero
+claude  <span class="c"># then: "start me on the aiops curriculum"</span></div>
+    </div>
+  </section>
+
+  <section id="contribute">
+    <div class="wrap">
+      <h2>🤝 Built together</h2>
+      <p class="lead">There's a full contributor track — from suggesting one link to owning a stage.</p>
+      <div class="audience">
+        <div class="aud-card"><div class="who">🐣 Learner</div><div class="start">Open an issue with a resource that helped you</div></div>
+        <div class="aud-card"><div class="who">🛠️ Contributor</div><div class="start">PR a resource, lab, or fix</div></div>
+        <div class="aud-card"><div class="who">🔍 Reviewer</div><div class="start">Help vet links and keep stages current</div></div>
+        <div class="aud-card"><div class="who">🧭 Maintainer</div><div class="start">Own a stage and its roadmap</div></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div id="reader">
+  <div class="wrap">
+    <div class="reader-top">
+      <button class="back-btn" onclick="goHome()">← All stages</button>
+      <div class="reader-nav">
+        <button class="back-btn" id="prevBtn">← Prev</button>
+        <button class="back-btn" id="nextBtn">Next →</button>
+      </div>
+    </div>
+    <article class="md" id="mdContent"><div class="loading">Loading…</div></article>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p><strong style="color:var(--text)">aiopszerotohero</strong> · MIT licensed · learn, fork, remix, teach</p>
+    <p style="margin-top:6px">Built with <span class="heart">♥</span> by practitioners, for the next generation of AI-native operators.</p>
+  </div>
+</footer>
+
+<script>
+const STAGES = [
+  { n: 0,  dir: "00-orientation",               title: "Orientation & Career Map",           desc: "Explain the role landscape and plan your path",                                    lv: "g", tag: "🟢 Beginner" },
+  { n: 1,  dir: "01-foundations",               title: "Foundations",                         desc: "Use Linux, Python, Git and one cloud confidently",                                 lv: "g", tag: "🟢 Beginner" },
+  { n: 2,  dir: "02-core-devops",               title: "Core DevOps",                         desc: "Ship with CI/CD, Docker, Kubernetes, Terraform, Prometheus/Grafana",               lv: "g", tag: "🟢→🟡" },
+  { n: 3,  dir: "03-ai-fundamentals",           title: "AI Fundamentals",                     desc: "Work with LLM APIs, prompting, embeddings, RAG, basic evals",                      lv: "y", tag: "🟡 Intermediate" },
+  { n: 4,  dir: "04-ai-assisted-ops",           title: "AI-Assisted Ops",                     desc: "Use agentic coding tools, MCP, and AI inside pipelines & runbooks",                lv: "y", tag: "🟡 Intermediate" },
+  { n: 5,  dir: "05-llm-platform-engineering",  title: "LLM Platform Engineering",            desc: "Run an LLM gateway with routing, rate limits, cost controls, self-service",        lv: "y", tag: "🟡→🔴" },
+  { n: 6,  dir: "06-ai-observability-reliability", title: "AI Observability & Reliability",   desc: "Build eval pipelines, tracing, drift detection, SLOs and incident response for AI", lv: "r", tag: "🔴 Advanced" },
+  { n: 7,  dir: "07-ai-infrastructure",         title: "AI Infrastructure",                   desc: "Serve models on Kubernetes with GPUs: vLLM, KServe, Kueue, autoscaling",           lv: "r", tag: "🔴 Advanced" },
+  { n: 8,  dir: "08-agentic-operations",        title: "Agentic Operations",                  desc: "Govern multi-agent systems: harnesses, quality gates, human oversight",            lv: "r", tag: "🔴 Advanced" },
+  { n: 9,  dir: "09-security-governance",       title: "Security, Governance & Compliance",   desc: "Apply OWASP LLM Top 10, guardrails, PII controls, NIST AI RMF, EU AI Act",         lv: "r", tag: "🔴 Advanced" },
+  { n: 10, dir: "10-capstones",                 title: "Capstones & Portfolio",               desc: "Prove it all with end-to-end projects employers recognize",                        lv: "r", tag: "🔴 Expert" },
+];
+
+// ---------- Roadmap cards ----------
+const track = document.getElementById("track");
+track.innerHTML = STAGES.map(s => `
+  <div class="stage-card lv-${s.lv}" onclick="location.hash='#/stage/${s.n}'">
+    <div class="stage-num">${String(s.n).padStart(2,"0")}</div>
+    <div class="stage-body">
+      <h3>${s.title}</h3>
+      <p>${s.desc}</p>
+    </div>
+    <div class="stage-meta">
+      <span class="level-tag">${s.tag}</span>
+      <span class="open-hint">read stage →</span>
+    </div>
+  </div>`).join("");
+
+// ---------- Minimal Markdown renderer ----------
+function esc(s) { return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+function inline(s) {
+  s = esc(s);
+  s = s.replace(/`([^`]+)`/g, (_, c) => `<code>${c}</code>`);
+  s = s.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_, t, u) => {
+    const external = /^https?:/.test(u);
+    return `<a href="${u}" ${external ? 'target="_blank" rel="noopener"' : ''}>${t}</a>`;
+  });
+  s = s.replace(/\*\*\*([^*]+)\*\*\*/g, "<strong><em>$1</em></strong>");
+  s = s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+  s = s.replace(/(^|[\s(>])\*([^*\n]+)\*/g, "$1<em>$2</em>");
+  return s;
+}
+
+function renderMd(md) {
+  const lines = md.split("\n");
+  let html = "", i = 0;
+  const flushPara = buf => buf.length ? `<p>${inline(buf.join(" "))}</p>` : "";
+  let para = [];
+  const endPara = () => { html += flushPara(para); para = []; };
+
+  while (i < lines.length) {
+    const line = lines[i];
+
+    if (/^```/.test(line)) {                       // code fence
+      endPara();
+      let code = []; i++;
+      while (i < lines.length && !/^```/.test(lines[i])) code.push(lines[i++]);
+      i++;
+      html += `<pre><code>${esc(code.join("\n"))}</code></pre>`;
+      continue;
+    }
+    if (/^(---|\*\*\*)\s*$/.test(line)) { endPara(); html += "<hr>"; i++; continue; }
+
+    const h = line.match(/^(#{1,4})\s+(.*)/);      // headings
+    if (h) { endPara(); html += `<h${h[1].length}>${inline(h[2])}</h${h[1].length}>`; i++; continue; }
+
+    if (/^>/.test(line)) {                          // blockquote
+      endPara();
+      let q = [];
+      while (i < lines.length && /^>/.test(lines[i])) q.push(lines[i++].replace(/^>\s?/, ""));
+      html += `<blockquote>${q.map(l => l.trim() ? `<p>${inline(l)}</p>` : "").join("")}</blockquote>`;
+      continue;
+    }
+    if (/^\|/.test(line)) {                         // table
+      endPara();
+      let rows = [];
+      while (i < lines.length && /^\|/.test(lines[i])) rows.push(lines[i++]);
+      const cells = r => r.replace(/^\||\|$/g, "").split("|").map(c => c.trim());
+      const header = cells(rows[0]);
+      const body = rows.slice(2);
+      html += `<table><thead><tr>${header.map(c => `<th>${inline(c)}</th>`).join("")}</tr></thead><tbody>` +
+        body.map(r => `<tr>${cells(r).map(c => `<td>${inline(c)}</td>`).join("")}</tr>`).join("") +
+        `</tbody></table>`;
+      continue;
+    }
+    const li = line.match(/^(\s*)([-*]|\d+\.)\s+(.*)/);  // lists (flat + one nest level)
+    if (li) {
+      endPara();
+      const ordered = /^\d/.test(li[2]);
+      const tag = ordered ? "ol" : "ul";
+      let items = [];
+      while (i < lines.length) {
+        const m = lines[i].match(/^(\s*)([-*]|\d+\.)\s+(.*)/);
+        if (!m) break;
+        const text = m[3];
+        const cb = text.match(/^\[( |x)\]\s+(.*)/i);
+        if (cb) {
+          const checked = cb[1].toLowerCase() === "x" ? "checked" : "";
+          items.push(`<li><input type="checkbox" ${checked} disabled> ${inline(cb[2])}</li>`);
+        } else {
+          items.push(`<li>${inline(text)}</li>`);
+        }
+        i++;
+      }
+      html += `<${tag}>${items.join("")}</${tag}>`;
+      continue;
+    }
+    if (!line.trim()) { endPara(); i++; continue; }
+    para.push(line.trim()); i++;
+  }
+  endPara();
+  return html;
+}
+
+// ---------- Router ----------
+const home = document.getElementById("home");
+const reader = document.getElementById("reader");
+const mdContent = document.getElementById("mdContent");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+let current = null;
+
+function goHome() { location.hash = "#/"; }
+
+async function showStage(n) {
+  const s = STAGES.find(x => x.n === n);
+  if (!s) return goHome();
+  current = n;
+  home.classList.add("hidden");
+  reader.classList.add("active");
+  window.scrollTo(0, 0);
+  prevBtn.style.visibility = n > 0 ? "visible" : "hidden";
+  nextBtn.style.visibility = n < 10 ? "visible" : "hidden";
+  mdContent.innerHTML = '<div class="loading">Loading…</div>';
+  try {
+    const res = await fetch(`../stages/${s.dir}/README.md`);
+    if (!res.ok) throw new Error(res.status);
+    mdContent.innerHTML = renderMd(await res.text());
+  } catch (e) {
+    mdContent.innerHTML = `<div class="loading">Couldn't load the stage file (${esc(String(e))}).<br>Make sure you're serving the <b>repo root</b>, e.g. <code>python3 -m http.server</code> from the project folder, then open <code>/site/</code>.</div>`;
+  }
+}
+
+prevBtn.onclick = () => location.hash = `#/stage/${current - 1}`;
+nextBtn.onclick = () => location.hash = `#/stage/${current + 1}`;
+
+function route() {
+  const m = location.hash.match(/^#\/stage\/(\d+)/);
+  if (m) return showStage(parseInt(m[1], 10));
+  home.classList.remove("hidden");
+  reader.classList.remove("active");
+}
+window.addEventListener("hashchange", route);
+route();
+</script>
+</body>
+</html>
