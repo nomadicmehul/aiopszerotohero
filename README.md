@@ -91,12 +91,16 @@ Then in your agent:
 
 See [skills/README.md](skills/README.md) for details.
 
-### 2. Browse the website locally
+### 2. Browse the website
+
+**Live:** [nomadicmehul.github.io/aiopszerotohero](https://nomadicmehul.github.io/aiopszerotohero/)
+
+Or run it locally:
 
 ```bash
 git clone https://github.com/nomadicmehul/aiopszerotohero.git && cd aiopszerotohero
 python3 -m http.server 4173
-# open http://localhost:4173/site/
+# open http://localhost:4173/docs/
 ```
 
 ### 3. Read it right here

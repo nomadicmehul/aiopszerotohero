@@ -456,12 +456,22 @@ async function showStage(n) {
   nextBtn.style.visibility = n < 10 ? "visible" : "hidden";
   mdContent.innerHTML = '<div class="loading">Loading…</div>';
   try {
-    const res = await fetch(`../stages/${s.dir}/README.md`);
-    if (!res.ok) throw new Error(res.status);
-    mdContent.innerHTML = renderMd(await res.text());
+    mdContent.innerHTML = renderMd(await fetchStageMd(s.dir));
   } catch (e) {
-    mdContent.innerHTML = `<div class="loading">Couldn't load the stage file (${esc(String(e))}).<br>Make sure you're serving the <b>repo root</b>, e.g. <code>python3 -m http.server</code> from the project folder, then open <code>/site/</code>.</div>`;
+    mdContent.innerHTML = `<div class="loading">Couldn't load the stage file (${esc(String(e))}).<br>If running locally, serve the <b>repo root</b> — e.g. <code>python3 -m http.server</code> from the project folder — then open <code>/docs/</code>.</div>`;
   }
+}
+
+// Local file first (repo served via http.server); falls back to GitHub raw
+// because GitHub Pages publishes only /docs, not ../stages.
+async function fetchStageMd(dir) {
+  try {
+    const r = await fetch(`../stages/${dir}/README.md`);
+    if (r.ok) return await r.text();
+  } catch (_) {}
+  const r = await fetch(`https://raw.githubusercontent.com/nomadicmehul/aiopszerotohero/main/stages/${dir}/README.md`);
+  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+  return await r.text();
 }
 
 prevBtn.onclick = () => location.hash = `#/stage/${current - 1}`;
