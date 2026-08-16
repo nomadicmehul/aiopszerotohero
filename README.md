@@ -93,7 +93,7 @@ See [skills/README.md](skills/README.md) for details.
 
 ### 2. Browse the website
 
-**Live:** [nomadicmehul.github.io/aiopszerotohero](https://nomadicmehul.github.io/aiopszerotohero/)
+**Live:** [nomadicmehul.dev/aiopszerotohero](https://nomadicmehul.dev/aiopszerotohero/)
 
 Or run it locally:
 
